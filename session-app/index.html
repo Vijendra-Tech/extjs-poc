@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all.js"
+      integrity="sha512-9/PSAauo3WWhJZfCNwqWlD4l8+Bwr+WTYmhCyiwQ0ifC/0IA+o1nwidrkAMfZTkchgs/S/+ExhKEYg1e6KiXgQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/resources/ext-theme-neptune/ext-theme-neptune-all-rtl.min.css"
+      integrity="sha512-MYzhJIymlfFWXRsjJkgoxkkvS8GxWICK+wDJtHcdUGMmCZcaeKwnZ+tjYHLHtyo7kt22sX80cduD7+q5pzhH2w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Sencha Grid</title>
+  </head>
+
+<script>
+    Ext.onReady(function () {
+      Ext.application({
+        name: "SessionApp",
+        launch: function () {
+          Ext.define("SessionForm", {
+            extend: "Ext.window.Window",
+            alias: "widget.sessionform",
+            padding: 5,
+            width: 600,
+            title: "Session Form",
+            model: "true",
+            items: [
+              {
+                xtype: "form",
+                bodyPadding: 10,
+                title: "",
+                defaults: {
+                  labelWidth: 80,
+                  margin: "0 0 10 0",
+                  anchor: "90%",
+                },
+                items: [
+                  {
+                    xtype: "textfield",
+                    fieldLabel: "Title",
+                    name: "title",
+                    allowBlank: false,
+                  },
+                  {
+                    xtype: "textfield",
+                    fieldLabel: "Body",
+                    name: "body",
+                    allowBlank: false,
+                  },
+                ],
+              },
+            ],
+          });
+          Ext.define("SessionGridPanel", {
+            extend: "Ext.grid.Panel",
+            alias: "widget.sessiongridpanel",
+
+            listeners: {
+              itemclick: function (grid, record, item, e) {
+                console.log("Item clicked", record);
+                const formWindow = Ext.create("SessionForm");
+                const form = formWindow.down("form")
+                form.loadRecord(record);
+                formWindow.show();
+              },
+            },
+
+            store: {
+              fields: ["id", "title", "body"],
+              autoLoad: true,
+              autoSync: true,
+              proxy: {
+                type: "rest",
+                // url: "https://jsonplaceholder.typicode.com/posts",
+                url: "./data/posts.json",
+                reader: {
+                  type: "json",
+                  root: "data",
+                },
+              },
+              sorters: [
+                {
+                  property: "title",
+                },
+              ],
+            },
+            columns: [
+              {
+                xtype: "gridcolumn",
+                dataIndex: "id",
+                text: "UserId",
+                padding: 5,
+                marginLeft: 5,
+              },
+              {
+                xtype: "gridcolumn",
+                dataIndex: "title",
+                text: "Title",
+                flex: 1,
+                minWidth: 100,
+                width: 75,
+              },
+              {
+                xtype: "gridcolumn",
+                dataIndex: "body",
+                text: "Body",
+                flex: 2,
+              },
+            ],
+            features: [
+              {
+                ftype: "grouping",
+                groupHeaderTpl: ["{[values.rows[0].data.userId]}"],
+              },
+            ],
+          });
+
+          Ext.create("Ext.container.Viewport", {
+            html: "Hello World",
+            layout: {
+              type: "border",
+            },
+            items: [
+              {
+                region: "west",
+                layout: {
+                  type: "vbox",
+                  align: "stretch",
+                },
+                split: true,
+                flex: 1,
+                items: [
+                  {
+                    xtype: "sessiongridpanel",
+                    flex: 3,
+                  },
+                  {
+                    xtype: "splitter",
+                    width: 1,
+                  },
+                  {
+                    html: "<b>Speaker Panel</b>",
+                    flex: 1,
+                    xtype: "panel",
+                  },
+                ],
+              },
+              {
+                region: "center",
+                html: "<b>Detail Panel</b>",
+                flex: 3,
+                xtype: "panel",
+                collapsible: false,
+                collapsed: false,
+                collapseDirection: "right",
+                title: "Details Panel",
+              },
+            ],
+          });
+        },
+      });
+    });
+  </script>
+
+  <body></body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all.js"
+      integrity="sha512-9/PSAauo3WWhJZfCNwqWlD4l8+Bwr+WTYmhCyiwQ0ifC/0IA+o1nwidrkAMfZTkchgs/S/+ExhKEYg1e6KiXgQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/resources/ext-theme-neptune/ext-theme-neptune-all-rtl.min.css"
+      integrity="sha512-MYzhJIymlfFWXRsjJkgoxkkvS8GxWICK+wDJtHcdUGMmCZcaeKwnZ+tjYHLHtyo7kt22sX80cduD7+q5pzhH2w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+  </head>
+
+  <script>
+    Ext.onReady(function () {
+      //start from here
+      Ext.define("SessionModel", {
+        extend: "Ext.data.Model",
+        // field: ["id", "title", "sessionLevel", "approved"],
+        field: [
+          {
+            name: "id",
+            type: "int",
+          },
+          {
+            name: "title",
+            type: "string",
+          },
+          {
+            name: "sessionLevel",
+            type: "string",
+          },
+          {
+            name: "approved",
+            type: "boolean",
+          },
+        ],
+        validation: [
+          { type: "presence", field: "title" },
+          { type: "length", field: "title", min: 3 },
+          {
+            type: "inclusion",
+            field: "sessionLevel",
+            list: ["Beginner", "Intermediate", "Advanced"],
+          },
+          { type: "exclusion", field: "title", list: ["Title"] },
+        ],
+        proxy: {
+          type: "rest",
+          url: "https://fakestoreapi.com/products",
+          reader: {
+            type: "json",
+          },
+        },
+      });
+
+      const mySession = Ext.create("SessionModel", {
+        title: "ExtJS",
+        sessionLevel: "Beginner",
+        approved: true,
+      });
+      mySession.save({
+        success: function (session) {
+          console.log("session saved", session.getData());
+          mySession.set("title", "ExtJS 4");
+          mySession.save({
+            success: function (session) {
+              console.log("session updated", session.getData());
+            },
+          });
+        },
+      });
+
+      const mySession2 = Ext.create("SessionModel", {
+        title: "React",
+        sessionLevel: "Beginner",
+        approved: true,
+      });
+    });
+  </script>
+
+  <body></body>
+</html>

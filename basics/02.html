@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/ext-all.js"
+      integrity="sha512-9/PSAauo3WWhJZfCNwqWlD4l8+Bwr+WTYmhCyiwQ0ifC/0IA+o1nwidrkAMfZTkchgs/S/+ExhKEYg1e6KiXgQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/extjs/4.2.1/resources/ext-theme-neptune/ext-theme-neptune-all-rtl.min.css"
+      integrity="sha512-MYzhJIymlfFWXRsjJkgoxkkvS8GxWICK+wDJtHcdUGMmCZcaeKwnZ+tjYHLHtyo7kt22sX80cduD7+q5pzhH2w=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <title>Document</title>
+  </head>
+
+  <script>
+    Ext.onReady(function () {
+
+      Ext.application({
+        name: "MainApp",
+        launch: function () {
+          Ext.create("Ext.container.Viewport", {
+          
+            items: [
+                {
+                  xtype: "button",  
+                  text:'disabled',
+                  handler:function(){
+                    console.log('button clicked');
+                    this.up().down('#myComp').disable();
+                  },
+                },
+              {
+                xtype: "panel",
+                itemId:"myComp",    
+                title: "Hello World",
+                tpl: "name: {name}",
+                data: { name: "John" },
+                resizable: true,
+                width: 200,
+                height: 200,
+                style: "background-color: #f1f1f1", 
+                padding: 20,
+                listeners: {
+                  resize: function (panel, width, height) {
+                    console.log("resize", width, height);
+                  },
+                },
+              },
+            ],
+          });
+        },
+      });
+    });
+  </script>
+
+  <body></body>
+</html>
