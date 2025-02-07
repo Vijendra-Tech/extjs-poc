@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <!-- <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/ext-all-debug.js"
+      integrity="sha512-GGAMhBMzo0vtaCFVtJ/xsOupk7xW7QSmjPfSJ3fMbSs8MLdxz1na2knNvJxnalK3na7yzZpmmIMhSoja2WAQuA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script> -->
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/adapter/ext/ext-base.js"
+      integrity="sha512-n883Ur5T2MoU5+9/ybwgDqM7f5PWJIr59PT0Bdeb/ODGtfWLQzPScP84wsNEB0zCmafj/xURqAoaftX+Zywdog=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/css/xtheme-blue.css"
+      integrity="sha512-h42IAoUdx44t4y9yvKrLIxUDJcapL4pok5QL84bxg0I5SnZD8aQzNmIV/c6DxZtXp8pj6st5dxESmTGgVaaJRQ=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    /> -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/resources/css/ext-all.css"
+      integrity="sha512-a6xNSbxervUU60WPUYNX3KwQ2N94r8xJhCoJrKxuHuAbK5en7zmv0ywSSglrTIIDfu8zagdB6rYz+DinXXbwTw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/extjs/3.4.1-1/ext-all.js"
+      integrity="sha512-jOa3/kKeAKF7Z9YaJr5Uk9Av26b0v/Y1C81R5k/tofWUcxudQs4YQf6X8y2l/q/wTh5AtfK+dworpdWPw7x/hw=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    ></script>
+    <title>Sencha Grid</title>
+  </head>
+
+  <script>
+    Ext.onReady(function () {
+      new Ext.Viewport({
+        layout: "border",
+        items: [
+          {
+            region: "west",
+            collapsible: true,
+            title: "Navigation",
+            xtype: "treepanel",
+            width: 200,
+            autoScroll: true,
+            split: true,
+            loader: new Ext.tree.TreeLoader(),
+            root: new Ext.tree.AsyncTreeNode({
+              expanded: true,
+              children: [
+                {
+                  text: "Menu Option 1",
+                  leaf: true,
+                },
+                {
+                  text: "Menu Option 2",
+                  leaf: true,
+                },
+                {
+                  text: "Menu Option 3",
+                  leaf: true,
+                },
+              ],
+            }),
+            rootVisible: false,
+            listeners: {
+              click: function (n) {
+                Ext.Msg.alert(
+                  "Navigation Tree Click",
+                  'You clicked: "' + n.attributes.text + '"'
+                );
+              },
+            },
+          },
+          {
+            region: "center",
+            xtype: "tabpanel",
+            // remaining code not shown ...
+          },
+        ],
+      });
+    });
+  </script>
+
+  <body></body>
+</html>
